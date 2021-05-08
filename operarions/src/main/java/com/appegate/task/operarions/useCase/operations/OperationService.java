@@ -36,4 +36,12 @@ public interface OperationService {
 	 */
 	BigDecimal multiply(String idSession) throws OperationsAppGateException;
 
+	/**
+	 * 
+	 * @param idSession
+	 * @return
+	 * @throws OperationsAppGateException
+	 */
+	BigDecimal substract(String idSession) throws OperationsAppGateException;
+
 }

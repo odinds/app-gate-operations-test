@@ -80,4 +80,19 @@ public class OperationsController {
 			return new ResponseEntity<BigDecimal>(BigDecimal.ZERO, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	/**
+	 * 
+	 * @param idSession
+	 * @return
+	 */
+	@GetMapping("/doSubstract")
+	public ResponseEntity<BigDecimal> substractOperate(@RequestHeader("id-session") String idSession) {
+		try {
+			BigDecimal response = operationService.substract(idSession);
+			return new ResponseEntity<BigDecimal>(response, HttpStatus.OK);
+		} catch (OperationsAppGateException e) {
+			return new ResponseEntity<BigDecimal>(BigDecimal.ZERO, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }

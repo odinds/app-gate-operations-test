@@ -102,5 +102,29 @@ public class OperationServiceImpl implements OperationService {
 		return sum;
 	}
 
+	/**
+	 * @see Substracts operands thats contians in a session
+	 * @param idSession
+	 */
+	@Override
+	public BigDecimal substract(String idSession) throws OperationsAppGateException {
+		Optional<OperandData> operandDataOpt = operandDataRepository.findById(idSession);
+		
+		if(operandDataOpt.isEmpty()) {
+			return BigDecimal.ZERO;
+		}
+		
+		LinkedList<BigDecimal> operandList = operandDataOpt.map(d -> d.getOperands()).get();
+		if(operandList.isEmpty()) {
+			return BigDecimal.ZERO;
+		}
+		
+		BigDecimal base = operandList.pollFirst();
+		
+		BigDecimal sum = operandList.stream().reduce(base, BigDecimal::subtract);
+		
+		return sum;
+	}
+
 
 }

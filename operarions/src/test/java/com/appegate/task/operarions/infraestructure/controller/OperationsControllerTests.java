@@ -147,4 +147,39 @@ public class OperationsControllerTests {
     	assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
     	assertThat(response.getBody()).isEqualTo(responseOperation);
     }    
+    
+
+    /**
+     * @see Test substract operation ok
+     */
+    @Test
+    public void substractOpertionOK() throws OperationsAppGateException {
+    	String idSession= "1";
+    	BigDecimal responseOperation = BigDecimal.valueOf(-5L);
+    	
+    	when(operationService.multiply(idSession) ).thenReturn(responseOperation);
+    	
+    	ResponseEntity<BigDecimal> response = operationsController.multiplyOperate(idSession);
+    	assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    	assertThat(response.getBody()).isEqualTo(responseOperation);
+    }    
+    
+    /**
+     * 
+     * @see Test substract operation error data
+     */
+    @Test
+    public void substractOpertionExeption() {
+    	String idSession= "1";
+    	BigDecimal responseOperation = BigDecimal.ZERO;
+    	
+    	try {
+    		doThrow(new OperationsAppGateException("Error")).when(operationService).multiply(idSession);
+    	} catch (OperationsAppGateException e) {
+    	}
+    	
+    	ResponseEntity<BigDecimal> response = operationsController.multiplyOperate(idSession);
+    	assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+    	assertThat(response.getBody()).isEqualTo(responseOperation);
+    }      
 }

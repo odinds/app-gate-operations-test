@@ -126,7 +126,7 @@ public class OperationServiceTests {
 	}
 	
 	/**
-	 * @see Test sum operation ok
+	 * @see Test multiply operation ok
 	 * @throws OperationsAppGateException
 	 */
 	@Test
@@ -143,7 +143,7 @@ public class OperationServiceTests {
 	}
 	
 	/**
-	 * @see Test sum operation empty
+	 * @see Test multiply operation empty
 	 * @throws OperationsAppGateException
 	 */
 	@Test
@@ -156,6 +156,104 @@ public class OperationServiceTests {
 		BigDecimal response = operationService.multiply(idSession);
 		assertThat(response).isEqualTo(BigDecimal.ZERO);
 	}
+	
+	/**
+	 * @see Test substarct operation ok
+	 * @throws OperationsAppGateException
+	 */
+	@Test
+	public void substractOperationsOk1() throws OperationsAppGateException{
+		String idSession= "1";
+		OperandData data = createOperationData();
+		
+		Optional<OperandData> operandDataOpt = Optional.of(data);
+		when(operandDataRepository.findById(idSession)).thenReturn(operandDataOpt);
+		
+		BigDecimal response = operationService.substract(idSession);
+		assertThat(response).isEqualTo(BigDecimal.valueOf(1L));
+		
+	}	
+	
+	/**
+	 * @see Test substarct operation ok
+	 * @throws OperationsAppGateException
+	 */
+	@Test
+	public void substractOperationsOk2() throws OperationsAppGateException{
+		String idSession= "1";
+		OperandData data = createOperationData2();
+		
+		Optional<OperandData> operandDataOpt = Optional.of(data);
+		when(operandDataRepository.findById(idSession)).thenReturn(operandDataOpt);
+		
+		BigDecimal response = operationService.substract(idSession);
+		assertThat(response).isEqualTo(BigDecimal.valueOf(-9L));
+		
+	}
+	
+	/**
+	 * @see Test substarct operation ok
+	 * @throws OperationsAppGateException
+	 */
+	@Test
+	public void substractOperationsOk3() throws OperationsAppGateException{
+		String idSession= "1";
+		OperandData data = createOperationData3();
+		
+		Optional<OperandData> operandDataOpt = Optional.of(data);
+		when(operandDataRepository.findById(idSession)).thenReturn(operandDataOpt);
+		
+		BigDecimal response = operationService.substract(idSession);
+		assertThat(response).isEqualTo(BigDecimal.valueOf(-10L));
+		
+	}
+	
+	/**
+	 * @see Test substarct operation empty
+	 * @throws OperationsAppGateException
+	 */
+	@Test
+	public void substractOperationsEmpty() throws OperationsAppGateException{
+		String idSession= "1";
+		
+		Optional<OperandData> operandDataOpt = Optional.empty();
+		when(operandDataRepository.findById(idSession)).thenReturn(operandDataOpt);
+		
+		BigDecimal response = operationService.substract(idSession);
+		assertThat(response).isEqualTo(BigDecimal.ZERO);
+		
+	}		
+	/**
+	 * @see Test substarct operation empty
+	 * @throws OperationsAppGateException
+	 */
+	@Test
+	public void substractOperationsEmptylist() throws OperationsAppGateException{
+		String idSession= "1";
+		OperandData data = createOperationDataEmpty();
+		
+		Optional<OperandData> operandDataOpt = Optional.of(data);
+		when(operandDataRepository.findById(idSession)).thenReturn(operandDataOpt);
+		
+		BigDecimal response = operationService.substract(idSession);
+		assertThat(response).isEqualTo(BigDecimal.ZERO);
+		
+	}		
+
+	private OperandData createOperationDataEmpty() {
+		OperandData data = new OperandData();
+		LinkedList<BigDecimal> operands = new LinkedList<>();
+		data.setOperands(operands);
+		return data;
+	}
+
+	private OperandData createOperationData() {
+		OperandData data = new OperandData();
+		LinkedList<BigDecimal> operands = new LinkedList<>();
+		operands.add(BigDecimal.ONE);
+		data.setOperands(operands);
+		return data;
+	}
 
 	private OperandData createOperationData2() {
 		OperandData data = new OperandData();
@@ -165,10 +263,12 @@ public class OperationServiceTests {
 		data.setOperands(operands);
 		return data;
 	}
-
-	private OperandData createOperationData() {
+	
+	private OperandData createOperationData3() {
 		OperandData data = new OperandData();
 		LinkedList<BigDecimal> operands = new LinkedList<>();
+		operands.add(BigDecimal.ONE);
+		operands.add(BigDecimal.TEN);
 		operands.add(BigDecimal.ONE);
 		data.setOperands(operands);
 		return data;
