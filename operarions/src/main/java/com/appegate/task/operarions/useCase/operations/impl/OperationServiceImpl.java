@@ -84,4 +84,23 @@ public class OperationServiceImpl implements OperationService {
 		return sum;
 	}
 
+	/**
+	 * @see Multiply operands thats contians in a session
+	 * @param idSession
+	 */
+	@Override
+	public BigDecimal multiply(String idSession) throws OperationsAppGateException {
+		Optional<OperandData> operandDataOpt = operandDataRepository.findById(idSession);
+		
+		if(operandDataOpt.isEmpty()) {
+			return BigDecimal.ZERO;
+		}
+		
+		LinkedList<BigDecimal> operandList = operandDataOpt.map(d -> d.getOperands()).get();
+		BigDecimal sum = operandList.stream().reduce(BigDecimal.ONE, BigDecimal::multiply);
+		
+		return sum;
+	}
+
+
 }

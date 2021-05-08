@@ -28,4 +28,12 @@ public interface OperationService {
 	 */
 	BigDecimal sum(String idSession) throws OperationsAppGateException;
 
+	/**
+	 * 
+	 * @param idSession
+	 * @return
+	 * @throws OperationsAppGateException
+	 */
+	BigDecimal multiply(String idSession) throws OperationsAppGateException;
+
 }

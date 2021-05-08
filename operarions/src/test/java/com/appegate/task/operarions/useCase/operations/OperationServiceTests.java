@@ -30,6 +30,10 @@ public class OperationServiceTests {
 	@InjectMocks
 	private OperationServiceImpl operationService;
 	
+	/**
+	 * 
+	 * @throws OperationsAppGateException
+	 */
 	@Test
 	public void getOperationNoData() throws OperationsAppGateException{
 		String idSession= "1";
@@ -42,6 +46,9 @@ public class OperationServiceTests {
 		operationService.addOperand(operandDto, idSession);
 	}
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void getOperationErrorOperandNull(){
 		String idSession= "1";
@@ -54,6 +61,9 @@ public class OperationServiceTests {
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void getOperationErrorOperand(){
 		String idSession= "1";
@@ -66,6 +76,10 @@ public class OperationServiceTests {
 		}
 	}
 
+	/**
+	 * 
+	 * @throws OperationsAppGateException
+	 */
 	@Test
 	public void getOperationData() throws OperationsAppGateException{
 		String idSession= "1";
@@ -78,6 +92,79 @@ public class OperationServiceTests {
 		
 		operationService.addOperand(operandDto, idSession);
 	}
+	
+	/**
+	 * @see Test sum operation ok
+	 * @throws OperationsAppGateException
+	 */
+	@Test
+	public void sumOperationsOk() throws OperationsAppGateException{
+		String idSession= "1";
+		OperandData data = createOperationData2();
+		
+		Optional<OperandData> operandDataOpt = Optional.of(data);
+		when(operandDataRepository.findById(idSession)).thenReturn(operandDataOpt);
+		
+		BigDecimal response = operationService.sum(idSession);
+		assertThat(response).isEqualTo(BigDecimal.valueOf(11L));
+		
+	}
+	
+	/**
+	 * @see Test sum operation empty
+	 * @throws OperationsAppGateException
+	 */
+	@Test
+	public void sumOperationsEmpy() throws OperationsAppGateException{
+		String idSession= "1";
+		
+		Optional<OperandData> operandDataOpt = Optional.empty();
+		when(operandDataRepository.findById(idSession)).thenReturn(operandDataOpt);
+		
+		BigDecimal response = operationService.sum(idSession);
+		assertThat(response).isEqualTo(BigDecimal.ZERO);
+	}
+	
+	/**
+	 * @see Test sum operation ok
+	 * @throws OperationsAppGateException
+	 */
+	@Test
+	public void multiplyOperationsOk() throws OperationsAppGateException{
+		String idSession= "1";
+		OperandData data = createOperationData2();
+		
+		Optional<OperandData> operandDataOpt = Optional.of(data);
+		when(operandDataRepository.findById(idSession)).thenReturn(operandDataOpt);
+		
+		BigDecimal response = operationService.multiply(idSession);
+		assertThat(response).isEqualTo(BigDecimal.TEN);
+		
+	}
+	
+	/**
+	 * @see Test sum operation empty
+	 * @throws OperationsAppGateException
+	 */
+	@Test
+	public void multipyOperationsEmpy() throws OperationsAppGateException{
+		String idSession= "1";
+		
+		Optional<OperandData> operandDataOpt = Optional.empty();
+		when(operandDataRepository.findById(idSession)).thenReturn(operandDataOpt);
+		
+		BigDecimal response = operationService.multiply(idSession);
+		assertThat(response).isEqualTo(BigDecimal.ZERO);
+	}
+
+	private OperandData createOperationData2() {
+		OperandData data = new OperandData();
+		LinkedList<BigDecimal> operands = new LinkedList<>();
+		operands.add(BigDecimal.ONE);
+		operands.add(BigDecimal.TEN);
+		data.setOperands(operands);
+		return data;
+	}
 
 	private OperandData createOperationData() {
 		OperandData data = new OperandData();
@@ -86,5 +173,4 @@ public class OperationServiceTests {
 		data.setOperands(operands);
 		return data;
 	}
-	
 }

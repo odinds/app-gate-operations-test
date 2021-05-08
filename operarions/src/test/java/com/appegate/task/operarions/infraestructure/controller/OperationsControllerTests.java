@@ -35,7 +35,7 @@ public class OperationsControllerTests {
     }
 
     /**
-     * 
+     * @see add Operand ok 
      */
     @Test
     public void inOperandOk() {
@@ -52,7 +52,7 @@ public class OperationsControllerTests {
     }
     
     /**
-     * 
+     * @see Service generate a error internal
      */
     @Test
     public void inOperandValueInternatError() {
@@ -69,7 +69,7 @@ public class OperationsControllerTests {
     }
     
     /**
-     * 
+     * @see Test idSession null error
      */
     @Test
     public void inOperandValueSessionError() {
@@ -81,7 +81,7 @@ public class OperationsControllerTests {
     }
     
     /**
-     * 
+     * @see Test sum operation ok
      */
     @Test
     public void sumOpertionOK() throws OperationsAppGateException {
@@ -97,6 +97,7 @@ public class OperationsControllerTests {
     
     /**
      * 
+     * @see Test sum operation error data
      */
     @Test
     public void sumOpertionExeption() {
@@ -109,6 +110,40 @@ public class OperationsControllerTests {
 		}
     	
     	ResponseEntity<BigDecimal> response = operationsController.sumOperate(idSession);
+    	assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+    	assertThat(response.getBody()).isEqualTo(responseOperation);
+    }    
+    
+    /**
+     * @see Test multipy operation ok
+     */
+    @Test
+    public void multiOpertionOK() throws OperationsAppGateException {
+    	String idSession= "1";
+    	BigDecimal responseOperation = BigDecimal.TEN;
+    	
+    	when(operationService.multiply(idSession) ).thenReturn(responseOperation);
+    	
+    	ResponseEntity<BigDecimal> response = operationsController.multiplyOperate(idSession);
+    	assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    	assertThat(response.getBody()).isEqualTo(responseOperation);
+    }    
+    
+    /**
+     * 
+     * @see Test multipy operation error data
+     */
+    @Test
+    public void multiOpertionExeption() {
+    	String idSession= "1";
+    	BigDecimal responseOperation = BigDecimal.ZERO;
+    	
+    	try {
+    		doThrow(new OperationsAppGateException("Error")).when(operationService).multiply(idSession);
+    	} catch (OperationsAppGateException e) {
+    	}
+    	
+    	ResponseEntity<BigDecimal> response = operationsController.multiplyOperate(idSession);
     	assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
     	assertThat(response.getBody()).isEqualTo(responseOperation);
     }    

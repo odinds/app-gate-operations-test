@@ -35,7 +35,7 @@ public class OperationsController {
 	 * @param idSession
 	 * @return
 	 */
-	@PostMapping("/inoperand")
+	@PostMapping("/addOperand")
 	public ResponseEntity<String> inOperandValue(@RequestBody OperandDto operand,@RequestHeader("id-session") String idSession){
 		
 		if(Objects.isNull(idSession)){
@@ -55,11 +55,26 @@ public class OperationsController {
 	 * @param idSession
 	 * @return
 	 */
-	@GetMapping("/sum")
+	@GetMapping("/doSum")
 	public ResponseEntity<BigDecimal> sumOperate(@RequestHeader("id-session") String idSession){
 		
 		try {
 			BigDecimal response = operationService.sum(idSession);
+			return new ResponseEntity<BigDecimal>(response, HttpStatus.OK);
+		} catch (OperationsAppGateException e) {
+			return new ResponseEntity<BigDecimal>(BigDecimal.ZERO, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	/**
+	 * 
+	 * @param idSession
+	 * @return
+	 */
+	@GetMapping("/doMultiply")
+	public ResponseEntity<BigDecimal> multiplyOperate(@RequestHeader("id-session") String idSession) {
+		try {
+			BigDecimal response = operationService.multiply(idSession);
 			return new ResponseEntity<BigDecimal>(response, HttpStatus.OK);
 		} catch (OperationsAppGateException e) {
 			return new ResponseEntity<BigDecimal>(BigDecimal.ZERO, HttpStatus.INTERNAL_SERVER_ERROR);
