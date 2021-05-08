@@ -120,7 +120,6 @@ public class OperationServiceImpl implements OperationService {
 		}
 		
 		BigDecimal base = operandList.pollFirst();
-		
 		BigDecimal sum = operandList.stream().reduce(base, BigDecimal::subtract);
 		
 		return sum;

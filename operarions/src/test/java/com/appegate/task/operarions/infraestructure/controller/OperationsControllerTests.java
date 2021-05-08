@@ -157,9 +157,9 @@ public class OperationsControllerTests {
     	String idSession= "1";
     	BigDecimal responseOperation = BigDecimal.valueOf(-5L);
     	
-    	when(operationService.multiply(idSession) ).thenReturn(responseOperation);
+    	when(operationService.substract(idSession) ).thenReturn(responseOperation);
     	
-    	ResponseEntity<BigDecimal> response = operationsController.multiplyOperate(idSession);
+    	ResponseEntity<BigDecimal> response = operationsController.substractOperate(idSession);
     	assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     	assertThat(response.getBody()).isEqualTo(responseOperation);
     }    
@@ -174,11 +174,11 @@ public class OperationsControllerTests {
     	BigDecimal responseOperation = BigDecimal.ZERO;
     	
     	try {
-    		doThrow(new OperationsAppGateException("Error")).when(operationService).multiply(idSession);
+    		doThrow(new OperationsAppGateException("Error")).when(operationService).substract(idSession);
     	} catch (OperationsAppGateException e) {
     	}
     	
-    	ResponseEntity<BigDecimal> response = operationsController.multiplyOperate(idSession);
+    	ResponseEntity<BigDecimal> response = operationsController.substractOperate(idSession);
     	assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
     	assertThat(response.getBody()).isEqualTo(responseOperation);
     }      
