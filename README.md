@@ -14,7 +14,7 @@ Open comand Line and execute the next commands
 	
 This generate a executable .jar in folder <project>/build/libs
 
-#Package
+#Run
 Open comand Line and execute the next commands
 	>cd operarions
 	>gradlew bootJar
@@ -37,4 +37,8 @@ Open comand Line and execute the next commands
 #Docker run
 Open comand Line and execute
 	>cd operarions
-	>docker run -p 8080:8080 appgate/operations
+	>docker run -p 8081:8081 appgate/operations
+	
+	
+#Docker compose
+	>docker-compose up --build

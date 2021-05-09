@@ -1,0 +1,27 @@
+version: '3.9'
+services:
+  redis:
+    container_name: redis
+    hostname: redis
+    build: ./redis
+    networks:
+      operations-network:
+        aliases:
+          - redis
+    ports:
+      - "6379:6379"
+  operarions:
+    image: 'appgate-operations:latest'
+    build: ./operarions
+    container_name: appgate-operations-app
+    networks:
+      - operations-network
+    ports:
+      - "8081:8081"
+    environment:
+      SERVER_PORT: 8081
+      SPRING_REDIS_HOST: 172.31.0.2
+      SPRING_REDIS_PORT: 6379
+networks:
+  operations-network:
+    external: true
