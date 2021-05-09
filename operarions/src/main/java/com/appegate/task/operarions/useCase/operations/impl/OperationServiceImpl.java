@@ -67,7 +67,7 @@ public class OperationServiceImpl implements OperationService {
 	}
 
 	/**
-	 * @see Sum operands thats contians in a session
+	 * @see Sum operands that contians in a session
 	 * @param idSession
 	 */
 	@Override
@@ -85,7 +85,7 @@ public class OperationServiceImpl implements OperationService {
 	}
 
 	/**
-	 * @see Multiply operands thats contians in a session
+	 * @see Multiply operands that contians in a session
 	 * @param idSession
 	 */
 	@Override
@@ -103,7 +103,7 @@ public class OperationServiceImpl implements OperationService {
 	}
 
 	/**
-	 * @see Substracts operands thats contians in a session
+	 * @see Substracts operands that contians in a session
 	 * @param idSession
 	 */
 	@Override
@@ -121,6 +121,34 @@ public class OperationServiceImpl implements OperationService {
 		
 		BigDecimal base = operandList.pollFirst();
 		BigDecimal sum = operandList.stream().reduce(base, BigDecimal::subtract);
+		
+		return sum;
+	}
+
+	/**
+	 * @see devide operands that contians in a session
+	 * @param idSession
+	 */
+	@Override
+	public BigDecimal devide(String idSession) throws OperationsAppGateException {
+		Optional<OperandData> operandDataOpt = operandDataRepository.findById(idSession);
+		
+		if(operandDataOpt.isEmpty()) {
+			return BigDecimal.ZERO;
+		}
+		
+		LinkedList<BigDecimal> operandList = operandDataOpt.map(d -> d.getOperands()).get();
+		if(operandList.isEmpty()) {
+			return BigDecimal.ZERO;
+		}
+		
+		BigDecimal base = operandList.pollFirst();
+		BigDecimal sum = BigDecimal.ZERO;
+		try {
+			sum = operandList.stream().reduce(base, BigDecimal::divide);
+		}catch (ArithmeticException  e) {
+			throw new OperationsAppGateException(EnumMessage.DATA_NO_DEVIDE_BUT_ZERO.getMessage());
+		}
 		
 		return sum;
 	}

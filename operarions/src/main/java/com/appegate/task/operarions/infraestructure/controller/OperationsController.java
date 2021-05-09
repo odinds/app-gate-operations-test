@@ -95,4 +95,19 @@ public class OperationsController {
 			return new ResponseEntity<BigDecimal>(BigDecimal.ZERO, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
+	/**
+	 * 
+	 * @param idSession
+	 * @return
+	 */
+	@GetMapping("/doDevide")
+	public ResponseEntity<BigDecimal> devideOperate(@RequestHeader("id-session") String idSession) {
+		try {
+			BigDecimal response = operationService.devide(idSession);
+			return new ResponseEntity<BigDecimal>(response, HttpStatus.OK);
+		} catch (OperationsAppGateException e) {
+			return new ResponseEntity<BigDecimal>(BigDecimal.ZERO, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }

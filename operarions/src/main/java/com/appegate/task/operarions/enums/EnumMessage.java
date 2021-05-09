@@ -7,7 +7,8 @@ package com.appegate.task.operarions.enums;
  */
 public enum EnumMessage {
 
-	NO_DATA_MESSAGE_ERROR("NO DATA");
+	NO_DATA_MESSAGE_ERROR("NO DATA"), 
+	DATA_NO_DEVIDE_BUT_ZERO("DATA CONTAINS A CERO ELEMENT");
 
 	private final String message;
 

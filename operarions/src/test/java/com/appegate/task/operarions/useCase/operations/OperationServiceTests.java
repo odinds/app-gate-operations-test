@@ -238,7 +238,98 @@ public class OperationServiceTests {
 		BigDecimal response = operationService.substract(idSession);
 		assertThat(response).isEqualTo(BigDecimal.ZERO);
 		
+	}
+	
+	/**
+	 * @see Test devide operation ok
+	 * @throws OperationsAppGateException
+	 */
+	@Test
+	public void devideOperationsOk1() throws OperationsAppGateException{
+		String idSession= "1";
+		OperandData data = createOperationData();
+		
+		Optional<OperandData> operandDataOpt = Optional.of(data);
+		when(operandDataRepository.findById(idSession)).thenReturn(operandDataOpt);
+		
+		BigDecimal response = operationService.devide(idSession);
+		assertThat(response).isEqualTo(BigDecimal.valueOf(1L));
+		
 	}		
+	
+	/**
+	 * @see Test devide operation ok
+	 * @throws OperationsAppGateException
+	 */
+	@Test
+	public void devideOperationsOk2() throws OperationsAppGateException{
+		String idSession= "1";
+		OperandData data = createOperationData2();
+		
+		Optional<OperandData> operandDataOpt = Optional.of(data);
+		when(operandDataRepository.findById(idSession)).thenReturn(operandDataOpt);
+		
+		BigDecimal response = operationService.devide(idSession);
+		assertThat(response).isEqualTo(BigDecimal.valueOf(0.1d));
+		
+	}		
+	
+	/**
+	 * @see Test devide operation ok
+	 * @throws OperationsAppGateException
+	 */
+	@Test
+	public void devideOperationsOk3() throws OperationsAppGateException{
+		String idSession= "1";
+		OperandData data = createOperationData31();
+		
+		Optional<OperandData> operandDataOpt = Optional.of(data);
+		when(operandDataRepository.findById(idSession)).thenReturn(operandDataOpt);
+		
+		BigDecimal response = operationService.devide(idSession);
+		assertThat(response).isEqualTo(BigDecimal.valueOf(0.05d));
+	}		
+	
+	/**
+	 * @see Test devide operation ok
+	 * @throws OperationsAppGateException
+	 */
+	@Test
+	public void devideOperationsErrorByZero(){
+		String idSession= "1";
+		OperandData data = createOperationDataCero();
+		
+		Optional<OperandData> operandDataOpt = Optional.of(data);
+		when(operandDataRepository.findById(idSession)).thenReturn(operandDataOpt);
+		
+		try {
+			BigDecimal response = operationService.devide(idSession);
+		} catch (OperationsAppGateException e) {
+			assertThat(e.getMessage()).isEqualTo(EnumMessage.DATA_NO_DEVIDE_BUT_ZERO.getMessage());
+		}
+	}		
+
+	private OperandData createOperationDataCero() {
+		OperandData data = new OperandData();
+		LinkedList<BigDecimal> operands = new LinkedList<>();
+		operands.add(BigDecimal.ONE);
+		operands.add(BigDecimal.ZERO);
+		operands.add(BigDecimal.TEN);
+		data.setOperands(operands);
+		
+		return data;
+	}
+
+	private OperandData createOperationData31() {
+		OperandData data = new OperandData();
+		LinkedList<BigDecimal> operands = new LinkedList<>();
+		operands.add(BigDecimal.ONE);
+		operands.add(BigDecimal.TEN);
+		operands.add(BigDecimal.valueOf(2));
+		data.setOperands(operands);
+		
+		return data;
+	}
 
 	private OperandData createOperationDataEmpty() {
 		OperandData data = new OperandData();

@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.appegate.task.operarions.enums.EnumMessage;
 import com.appegate.task.operarions.exceptions.OperationsAppGateException;
 import com.appegate.task.operarions.infraestructure.dto.OperandDto;
 import com.appegate.task.operarions.useCase.operations.impl.OperationServiceImpl;
@@ -181,5 +182,40 @@ public class OperationsControllerTests {
     	ResponseEntity<BigDecimal> response = operationsController.substractOperate(idSession);
     	assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
     	assertThat(response.getBody()).isEqualTo(responseOperation);
-    }      
+    }    
+    
+    
+    /**
+     * @see Test devide operation ok
+     */
+    @Test
+    public void divideOpertionOK() throws OperationsAppGateException {
+    	String idSession= "1";
+    	BigDecimal responseOperation = BigDecimal.valueOf(-5L);
+    	
+    	when(operationService.devide(idSession) ).thenReturn(responseOperation);
+    	
+    	ResponseEntity<BigDecimal> response = operationsController.devideOperate(idSession);
+    	assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    	assertThat(response.getBody()).isEqualTo(responseOperation);
+    }
+    
+    /**
+     * 
+     * @see Test substract operation error data
+     */
+    @Test
+    public void devideOpertionExeption() {
+    	String idSession= "1";
+    	BigDecimal responseOperation = BigDecimal.ZERO;
+    	
+    	try {
+    		doThrow(new OperationsAppGateException(EnumMessage.DATA_NO_DEVIDE_BUT_ZERO.getMessage())).when(operationService).substract(idSession);
+    		ResponseEntity<BigDecimal> response = operationsController.substractOperate(idSession);
+    		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+    		assertThat(response.getBody()).isEqualTo(responseOperation);
+    	} catch (OperationsAppGateException e) {
+    	}
+    	
+    }    
 }
