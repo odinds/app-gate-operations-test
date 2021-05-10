@@ -1,6 +1,7 @@
 package com.appegate.task.operarions.domain;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 
 import org.springframework.data.annotation.Id;
@@ -17,6 +18,8 @@ public class OperandData {
 	@Id
 	private String IdSession;
 	private LinkedList<BigDecimal> operands;
+	private LocalDateTime createDate;
+	private LocalDateTime updateDate;
 	
 	public String getIdSession() {
 		return IdSession;
@@ -30,6 +33,17 @@ public class OperandData {
 	public void setOperands(LinkedList<BigDecimal> operands) {
 		this.operands = operands;
 	}
-	
+	public LocalDateTime getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(LocalDateTime createDate) {
+		this.createDate = createDate;
+	}
+	public LocalDateTime getUpdateDate() {
+		return updateDate;
+	}
+	public void setUpdateDate(LocalDateTime updateDate) {
+		this.updateDate = updateDate;
+	}
 	
 }

@@ -8,7 +8,8 @@ package com.appegate.task.operarions.enums;
 public enum EnumMessage {
 
 	NO_DATA_MESSAGE_ERROR("NO DATA"), 
-	DATA_NO_DEVIDE_BUT_ZERO("DATA CONTAINS A CERO ELEMENT");
+	DATA_NO_DEVIDE_BUT_ZERO("DATA CONTAINS A CERO ELEMENT"), 
+	SESSION_DONT_EXISTS("SESSION DONT EXIST");
 
 	private final String message;
 

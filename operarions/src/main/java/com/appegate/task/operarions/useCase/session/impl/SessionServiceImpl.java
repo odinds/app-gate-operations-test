@@ -1,8 +1,7 @@
 package com.appegate.task.operarions.useCase.session.impl;
 
-import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +39,7 @@ public class SessionServiceImpl implements SessionService {
 		OperandData operandData = new OperandData();
 		operandData.setIdSession(idSession);
 		operandData.setOperands(new LinkedList<>());
+		operandData.setCreateDate(LocalDateTime.now());
 		operandDataRepository.save(operandData);
 	}
 

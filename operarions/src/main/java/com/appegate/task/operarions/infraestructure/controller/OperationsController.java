@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.appegate.task.operarions.exceptions.OperationsAppGateException;
+import com.appegate.task.operarions.exceptions.SessionAppGateException;
 import com.appegate.task.operarions.infraestructure.dto.OperandDto;
 import com.appegate.task.operarions.useCase.operations.OperationService;
 
@@ -47,6 +48,8 @@ public class OperationsController {
 			return new ResponseEntity<String>("OK", HttpStatus.OK);
 		} catch (OperationsAppGateException e) {
 			return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (SessionAppGateException e) {
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.FORBIDDEN);
 		}
 	}
 	
@@ -63,6 +66,8 @@ public class OperationsController {
 			return new ResponseEntity<BigDecimal>(response, HttpStatus.OK);
 		} catch (OperationsAppGateException e) {
 			return new ResponseEntity<BigDecimal>(BigDecimal.ZERO, HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (SessionAppGateException e) {
+			return new ResponseEntity<BigDecimal>(BigDecimal.ZERO, HttpStatus.FORBIDDEN);
 		}
 	}
 
@@ -78,6 +83,8 @@ public class OperationsController {
 			return new ResponseEntity<BigDecimal>(response, HttpStatus.OK);
 		} catch (OperationsAppGateException e) {
 			return new ResponseEntity<BigDecimal>(BigDecimal.ZERO, HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (SessionAppGateException e) {
+			return new ResponseEntity<BigDecimal>(BigDecimal.ZERO, HttpStatus.FORBIDDEN);			
 		}
 	}
 	
@@ -93,6 +100,8 @@ public class OperationsController {
 			return new ResponseEntity<BigDecimal>(response, HttpStatus.OK);
 		} catch (OperationsAppGateException e) {
 			return new ResponseEntity<BigDecimal>(BigDecimal.ZERO, HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (SessionAppGateException e) {
+			return new ResponseEntity<BigDecimal>(BigDecimal.ZERO, HttpStatus.FORBIDDEN);			
 		}
 	}
 
@@ -108,6 +117,8 @@ public class OperationsController {
 			return new ResponseEntity<BigDecimal>(response, HttpStatus.OK);
 		} catch (OperationsAppGateException e) {
 			return new ResponseEntity<BigDecimal>(BigDecimal.ZERO, HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (SessionAppGateException e) {
+			return new ResponseEntity<BigDecimal>(BigDecimal.ZERO, HttpStatus.FORBIDDEN);			
 		}
 	}
 }

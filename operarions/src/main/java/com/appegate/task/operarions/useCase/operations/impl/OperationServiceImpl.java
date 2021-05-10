@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.appegate.task.operarions.domain.OperandData;
 import com.appegate.task.operarions.enums.EnumMessage;
 import com.appegate.task.operarions.exceptions.OperationsAppGateException;
+import com.appegate.task.operarions.exceptions.SessionAppGateException;
 import com.appegate.task.operarions.infraestructure.dto.OperandDto;
 import com.appegate.task.operarions.infraestructure.repository.OperandDataRepository;
 import com.appegate.task.operarions.useCase.operations.OperationService;
@@ -33,16 +34,14 @@ public class OperationServiceImpl implements OperationService {
 	 * @param idSession
 	 */
 	@Override
-	public void addOperand(OperandDto operand, String idSession) throws OperationsAppGateException {
+	public void addOperand(OperandDto operand, String idSession) throws OperationsAppGateException, SessionAppGateException{
 		
 		if(validate(operand)){
 			Optional<OperandData> operandDataOpt = operandDataRepository.findById(idSession);
 			LinkedList<BigDecimal> operandList = null;
 			OperandData operandData = null;
 			if(operandDataOpt.isEmpty()) {
-				operandList = new LinkedList<>();
-				operandData = new OperandData();
-				operandData.setIdSession(idSession);
+				throw new SessionAppGateException(EnumMessage.SESSION_DONT_EXISTS.getMessage());
 			}else {
 				operandList = operandDataOpt.map(d -> d.getOperands()).get(); 
 				operandData = operandDataOpt.get();
@@ -56,27 +55,16 @@ public class OperationServiceImpl implements OperationService {
 		}
 	}
 
-	private boolean validate(OperandDto operand) {
-		if(Objects.isNull(operand)) {
-			return Boolean.FALSE;
-		}
-		if(Objects.isNull(operand.getOperand())) {
-			return Boolean.FALSE;
-		}
-		return Boolean.TRUE;
-			
-	}
-
 	/**
 	 * @see Sum operands that contians in a session
 	 * @param idSession
 	 */
 	@Override
-	public BigDecimal sum(String idSession) throws OperationsAppGateException {
+	public BigDecimal sum(String idSession) throws OperationsAppGateException, SessionAppGateException{
 		Optional<OperandData> operandDataOpt = operandDataRepository.findById(idSession);
 		
 		if(operandDataOpt.isEmpty()) {
-			return BigDecimal.ZERO;
+			throw new SessionAppGateException(EnumMessage.SESSION_DONT_EXISTS.getMessage());
 		}
 		
 		LinkedList<BigDecimal> operandList = operandDataOpt.map(d -> d.getOperands()).get();
@@ -90,11 +78,11 @@ public class OperationServiceImpl implements OperationService {
 	 * @param idSession
 	 */
 	@Override
-	public BigDecimal multiply(String idSession) throws OperationsAppGateException {
+	public BigDecimal multiply(String idSession) throws OperationsAppGateException,SessionAppGateException {
 		Optional<OperandData> operandDataOpt = operandDataRepository.findById(idSession);
 		
 		if(operandDataOpt.isEmpty()) {
-			return BigDecimal.ZERO;
+			throw new SessionAppGateException(EnumMessage.SESSION_DONT_EXISTS.getMessage());
 		}
 		
 		LinkedList<BigDecimal> operandList = operandDataOpt.map(d -> d.getOperands()).get();
@@ -109,11 +97,11 @@ public class OperationServiceImpl implements OperationService {
 	 * @param idSession
 	 */
 	@Override
-	public BigDecimal substract(String idSession) throws OperationsAppGateException {
+	public BigDecimal substract(String idSession) throws OperationsAppGateException,SessionAppGateException {
 		Optional<OperandData> operandDataOpt = operandDataRepository.findById(idSession);
 		
 		if(operandDataOpt.isEmpty()) {
-			return BigDecimal.ZERO;
+			throw new SessionAppGateException(EnumMessage.SESSION_DONT_EXISTS.getMessage());
 		}
 		
 		LinkedList<BigDecimal> operandList = operandDataOpt.map(d -> d.getOperands()).get();
@@ -133,11 +121,11 @@ public class OperationServiceImpl implements OperationService {
 	 * @param idSession
 	 */
 	@Override
-	public BigDecimal devide(String idSession) throws OperationsAppGateException {
+	public BigDecimal devide(String idSession) throws OperationsAppGateException,SessionAppGateException {
 		Optional<OperandData> operandDataOpt = operandDataRepository.findById(idSession);
 		
 		if(operandDataOpt.isEmpty()) {
-			return BigDecimal.ZERO;
+			throw new SessionAppGateException(EnumMessage.SESSION_DONT_EXISTS.getMessage());
 		}
 		
 		LinkedList<BigDecimal> operandList = operandDataOpt.map(d -> d.getOperands()).get();
@@ -155,6 +143,17 @@ public class OperationServiceImpl implements OperationService {
 		}
 		
 		return result;
+	}
+
+	private boolean validate(OperandDto operand) {
+		if(Objects.isNull(operand)) {
+			return Boolean.FALSE;
+		}
+		if(Objects.isNull(operand.getOperand())) {
+			return Boolean.FALSE;
+		}
+		return Boolean.TRUE;
+			
 	}
 
 	@Async("threadPoolTaskExecutor")

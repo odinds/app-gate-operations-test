@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.appegate.task.operarions.enums.EnumMessage;
 import com.appegate.task.operarions.exceptions.OperationsAppGateException;
+import com.appegate.task.operarions.exceptions.SessionAppGateException;
 import com.appegate.task.operarions.infraestructure.dto.OperandDto;
 import com.appegate.task.operarions.useCase.operations.impl.OperationServiceImpl;
 
@@ -46,6 +47,8 @@ public class OperationsControllerTests {
 		try {
 			doNothing().when(operationService).addOperand(operand, idSession);
 		} catch (OperationsAppGateException e) {
+		} catch (SessionAppGateException e) {
+
 		}
 
 		ResponseEntity<String> response = operationsController.inOperandValue(operand, idSession);
@@ -63,7 +66,8 @@ public class OperationsControllerTests {
     	try {
     		doThrow(new OperationsAppGateException("Exception occured")).when(operationService).addOperand(operand, idSession);
     	} catch (OperationsAppGateException e) {
-    	}
+    	} catch (SessionAppGateException e) {
+		}
     	
     	ResponseEntity<String> response = operationsController.inOperandValue(operand, idSession);
     	assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -82,10 +86,11 @@ public class OperationsControllerTests {
     }
     
     /**
+     * @throws SessionAppGateException 
      * @see Test sum operation ok
      */
     @Test
-    public void sumOpertionOK() throws OperationsAppGateException {
+    public void sumOpertionOK() throws OperationsAppGateException, SessionAppGateException {
 		String idSession= "1";
 		BigDecimal responseOperation = BigDecimal.TEN;
 
@@ -108,6 +113,7 @@ public class OperationsControllerTests {
     	try {
     		doThrow(new OperationsAppGateException("Error")).when(operationService).sum(idSession);
 		} catch (OperationsAppGateException e) {
+		} catch (SessionAppGateException e) {
 		}
     	
     	ResponseEntity<BigDecimal> response = operationsController.sumOperate(idSession);
@@ -116,10 +122,11 @@ public class OperationsControllerTests {
     }    
     
     /**
+     * @throws SessionAppGateException 
      * @see Test multipy operation ok
      */
     @Test
-    public void multiOpertionOK() throws OperationsAppGateException {
+    public void multiOpertionOK() throws OperationsAppGateException, SessionAppGateException {
     	String idSession= "1";
     	BigDecimal responseOperation = BigDecimal.TEN;
     	
@@ -142,7 +149,8 @@ public class OperationsControllerTests {
     	try {
     		doThrow(new OperationsAppGateException("Error")).when(operationService).multiply(idSession);
     	} catch (OperationsAppGateException e) {
-    	}
+    	} catch (SessionAppGateException e) {
+		}
     	
     	ResponseEntity<BigDecimal> response = operationsController.multiplyOperate(idSession);
     	assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -151,10 +159,11 @@ public class OperationsControllerTests {
     
 
     /**
+     * @throws SessionAppGateException 
      * @see Test substract operation ok
      */
     @Test
-    public void substractOpertionOK() throws OperationsAppGateException {
+    public void substractOpertionOK() throws OperationsAppGateException, SessionAppGateException {
     	String idSession= "1";
     	BigDecimal responseOperation = BigDecimal.valueOf(-5L);
     	
@@ -177,7 +186,8 @@ public class OperationsControllerTests {
     	try {
     		doThrow(new OperationsAppGateException("Error")).when(operationService).substract(idSession);
     	} catch (OperationsAppGateException e) {
-    	}
+    	} catch (SessionAppGateException e) {
+		}
     	
     	ResponseEntity<BigDecimal> response = operationsController.substractOperate(idSession);
     	assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -186,10 +196,11 @@ public class OperationsControllerTests {
     
     
     /**
+     * @throws SessionAppGateException 
      * @see Test devide operation ok
      */
     @Test
-    public void divideOpertionOK() throws OperationsAppGateException {
+    public void divideOpertionOK() throws OperationsAppGateException, SessionAppGateException {
     	String idSession= "1";
     	BigDecimal responseOperation = BigDecimal.valueOf(-5L);
     	
@@ -202,10 +213,11 @@ public class OperationsControllerTests {
     
     /**
      * 
+     * @throws SessionAppGateException 
      * @see Test substract operation error data
      */
     @Test
-    public void devideOpertionExeption() {
+    public void devideOpertionExeption() throws SessionAppGateException {
     	String idSession= "1";
     	BigDecimal responseOperation = BigDecimal.ZERO;
     	

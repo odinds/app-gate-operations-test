@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.appegate.task.operarions.domain.OperandData;
 import com.appegate.task.operarions.enums.EnumMessage;
 import com.appegate.task.operarions.exceptions.OperationsAppGateException;
+import com.appegate.task.operarions.exceptions.SessionAppGateException;
 import com.appegate.task.operarions.infraestructure.dto.OperandDto;
 import com.appegate.task.operarions.infraestructure.repository.OperandDataRepository;
 import com.appegate.task.operarions.useCase.operations.impl.OperationServiceImpl;
@@ -33,6 +34,7 @@ public class OperationServiceTests {
 	/**
 	 * 
 	 * @throws OperationsAppGateException
+	 * @throws SessionAppGateException 
 	 */
 	@Test
 	public void getOperationNoData() throws OperationsAppGateException{
@@ -43,7 +45,11 @@ public class OperationServiceTests {
 		Optional<OperandData> operandDataOpt = Optional.empty();
 		when(operandDataRepository.findById(idSession)).thenReturn(operandDataOpt);
 
-		operationService.addOperand(operandDto, idSession);
+		try {
+			operationService.addOperand(operandDto, idSession);
+		} catch (SessionAppGateException e) {
+			assertThat(e.getMessage()).isEqualTo(EnumMessage.SESSION_DONT_EXISTS.getMessage());
+		}		
 	}
 	
 	/**
@@ -58,6 +64,9 @@ public class OperationServiceTests {
 			operationService.addOperand(operandDto, idSession);
 		} catch (OperationsAppGateException e) {
 			assertThat(e.getMessage()).isEqualTo(EnumMessage.NO_DATA_MESSAGE_ERROR.getMessage());
+		} catch (SessionAppGateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
@@ -73,6 +82,9 @@ public class OperationServiceTests {
 			operationService.addOperand(operandDto, idSession);
 		} catch (OperationsAppGateException e) {
 			assertThat(e.getMessage()).isEqualTo(EnumMessage.NO_DATA_MESSAGE_ERROR.getMessage());
+		} catch (SessionAppGateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -81,7 +93,7 @@ public class OperationServiceTests {
 	 * @throws OperationsAppGateException
 	 */
 	@Test
-	public void getOperationData() throws OperationsAppGateException{
+	public void getOperationData() throws OperationsAppGateException, SessionAppGateException{
 		String idSession= "1";
 		OperandData data = createOperationData();
 		OperandDto operandDto = new OperandDto();
@@ -98,7 +110,7 @@ public class OperationServiceTests {
 	 * @throws OperationsAppGateException
 	 */
 	@Test
-	public void sumOperationsOk() throws OperationsAppGateException{
+	public void sumOperationsOk() throws OperationsAppGateException, SessionAppGateException{
 		String idSession= "1";
 		OperandData data = createOperationData2();
 		
@@ -121,8 +133,12 @@ public class OperationServiceTests {
 		Optional<OperandData> operandDataOpt = Optional.empty();
 		when(operandDataRepository.findById(idSession)).thenReturn(operandDataOpt);
 		
-		BigDecimal response = operationService.sum(idSession);
-		assertThat(response).isEqualTo(BigDecimal.ZERO);
+		try {
+			BigDecimal response = operationService.sum(idSession);
+			assertThat(response).isEqualTo(BigDecimal.ZERO);
+		} catch (SessionAppGateException e) {
+			assertThat(e.getMessage()).isEqualTo(EnumMessage.SESSION_DONT_EXISTS.getMessage());
+		}
 	}
 	
 	/**
@@ -130,7 +146,7 @@ public class OperationServiceTests {
 	 * @throws OperationsAppGateException
 	 */
 	@Test
-	public void multiplyOperationsOk() throws OperationsAppGateException{
+	public void multiplyOperationsOk() throws OperationsAppGateException, SessionAppGateException{
 		String idSession= "1";
 		OperandData data = createOperationData2();
 		
@@ -153,16 +169,22 @@ public class OperationServiceTests {
 		Optional<OperandData> operandDataOpt = Optional.empty();
 		when(operandDataRepository.findById(idSession)).thenReturn(operandDataOpt);
 		
-		BigDecimal response = operationService.multiply(idSession);
-		assertThat(response).isEqualTo(BigDecimal.ZERO);
+		BigDecimal response;
+		try {
+			response = operationService.multiply(idSession);
+			assertThat(response).isEqualTo(BigDecimal.ZERO);
+		} catch (SessionAppGateException e) {
+			assertThat(e.getMessage()).isEqualTo(EnumMessage.SESSION_DONT_EXISTS.getMessage());
+		}
 	}
 	
 	/**
 	 * @see Test substarct operation ok
 	 * @throws OperationsAppGateException
+	 * @throws SessionAppGateException 
 	 */
 	@Test
-	public void substractOperationsOk1() throws OperationsAppGateException{
+	public void substractOperationsOk1() throws OperationsAppGateException, SessionAppGateException{
 		String idSession= "1";
 		OperandData data = createOperationData();
 		
@@ -177,9 +199,10 @@ public class OperationServiceTests {
 	/**
 	 * @see Test substarct operation ok
 	 * @throws OperationsAppGateException
+	 * @throws SessionAppGateException 
 	 */
 	@Test
-	public void substractOperationsOk2() throws OperationsAppGateException{
+	public void substractOperationsOk2() throws OperationsAppGateException, SessionAppGateException{
 		String idSession= "1";
 		OperandData data = createOperationData2();
 		
@@ -194,9 +217,10 @@ public class OperationServiceTests {
 	/**
 	 * @see Test substarct operation ok
 	 * @throws OperationsAppGateException
+	 * @throws SessionAppGateException 
 	 */
 	@Test
-	public void substractOperationsOk3() throws OperationsAppGateException{
+	public void substractOperationsOk3() throws OperationsAppGateException, SessionAppGateException{
 		String idSession= "1";
 		OperandData data = createOperationData3();
 		
@@ -211,6 +235,7 @@ public class OperationServiceTests {
 	/**
 	 * @see Test substarct operation empty
 	 * @throws OperationsAppGateException
+	 * @throws SessionAppGateException 
 	 */
 	@Test
 	public void substractOperationsEmpty() throws OperationsAppGateException{
@@ -219,16 +244,21 @@ public class OperationServiceTests {
 		Optional<OperandData> operandDataOpt = Optional.empty();
 		when(operandDataRepository.findById(idSession)).thenReturn(operandDataOpt);
 		
-		BigDecimal response = operationService.substract(idSession);
-		assertThat(response).isEqualTo(BigDecimal.ZERO);
+		try {
+			BigDecimal response = operationService.substract(idSession);
+			assertThat(response).isEqualTo(BigDecimal.ZERO);
+		} catch (SessionAppGateException e) {
+			assertThat(e.getMessage()).isEqualTo(EnumMessage.SESSION_DONT_EXISTS.getMessage());
+		}		
 		
 	}		
 	/**
 	 * @see Test substarct operation empty
 	 * @throws OperationsAppGateException
+	 * @throws SessionAppGateException 
 	 */
 	@Test
-	public void substractOperationsEmptylist() throws OperationsAppGateException{
+	public void substractOperationsEmptylist() throws OperationsAppGateException, SessionAppGateException{
 		String idSession= "1";
 		OperandData data = createOperationDataEmpty();
 		
@@ -243,9 +273,10 @@ public class OperationServiceTests {
 	/**
 	 * @see Test devide operation ok
 	 * @throws OperationsAppGateException
+	 * @throws SessionAppGateException 
 	 */
 	@Test
-	public void devideOperationsOk1() throws OperationsAppGateException{
+	public void devideOperationsOk1() throws OperationsAppGateException, SessionAppGateException{
 		String idSession= "1";
 		OperandData data = createOperationData();
 		
@@ -260,9 +291,10 @@ public class OperationServiceTests {
 	/**
 	 * @see Test devide operation ok
 	 * @throws OperationsAppGateException
+	 * @throws SessionAppGateException 
 	 */
 	@Test
-	public void devideOperationsOk2() throws OperationsAppGateException{
+	public void devideOperationsOk2() throws OperationsAppGateException, SessionAppGateException{
 		String idSession= "1";
 		OperandData data = createOperationData2();
 		
@@ -277,9 +309,10 @@ public class OperationServiceTests {
 	/**
 	 * @see Test devide operation ok
 	 * @throws OperationsAppGateException
+	 * @throws SessionAppGateException 
 	 */
 	@Test
-	public void devideOperationsOk3() throws OperationsAppGateException{
+	public void devideOperationsOk3() throws OperationsAppGateException, SessionAppGateException{
 		String idSession= "1";
 		OperandData data = createOperationData31();
 		
@@ -306,6 +339,8 @@ public class OperationServiceTests {
 			BigDecimal response = operationService.devide(idSession);
 		} catch (OperationsAppGateException e) {
 			assertThat(e.getMessage()).isEqualTo(EnumMessage.DATA_NO_DEVIDE_BUT_ZERO.getMessage());
+		} catch (SessionAppGateException e) {
+			
 		}
 	}		
 
