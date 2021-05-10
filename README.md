@@ -3,72 +3,96 @@
 ## Project(Gradle)
 
 # Build
-Open comand Line and execute the next commands
-	>cd operarions
-	>gradlew build
-	
-#Package
-Open comand Line and execute the next commands
-	>cd operarions
-	>gradlew bootJar
-	
+Execute in command line
+```sh
+cd operarions
+gradlew build
+```
+
+# Package
+Execute in command line
+```sh
+cd operarions
+gradlew bootJar
+```
+
 This will generate a executable .jar in folder <project>/build/libs
 
-#Run dev enviroment
-Open comand line and execute the next commands
-	>cd operarions
-	>gradlew bootRunDev
+# Run dev enviroment
+Execute in command line
+```sh
+cd operarions
+gradlew bootRunDev
+```
+This excute in enviroment dev
 	
-This generate a executable .jar in folder <project>/build/libs
-	
-#Tests
-Open comand Line and execute the next commands
-	>cd operarions
-	>gradlew test
-	
-	
-##Docker
+# Tests
+Execute in command line
+```sh
+cd operarions
+gradlew test
+```	
 
-#Docker build
-Open comand Line and execute the next commands
-	>cd operarions
-	>docker build -t appgate/operations .
-	
-#Docker run
-Open comand Line and execute
-	>cd operarions
-	>docker run -p 8081:8081 appgate/operations
-	
-	
-#Docker compose
-	>docker-compose up --build
-	
+## Docker
 
-#Curl 
-	* Get session
-	>curl http://localhost:8081/startSession
+# Docker build
+Execute in command line
+```sh
+operarions
+docker build -t appgate/operations .
+```
 	
-	Output Example->0af07a00-0c9d-4049-9460-15313ed67a44
-	
-	* add Operand
-	>curl -X POST http://localhost:8081/operations/addOperand -H "Content-Type: application/json" -H "id-session: 0af07a00-0c9d-4049-9460-15313ed67a44"  -d "{\"operand\":\"1\"}"
-	
-	Output Example -> OK 
+# Docker run
+Execute in command line
 
-	* Get Sum
-	>curl localhost:8081/operations/doSum -H "id-session: 0af07a00-0c9d-4049-9460-15313ed67a44"
-
-	* Get Multiply
-	>curl localhost:8081/operations/doMultiply -H "id-session: 0af07a00-0c9d-4049-9460-15313ed67a44"
+```sh
+cd operarions
+docker run -p 8081:8081 appgate/operations
+```
 	
-	* Get doSubstract
-	>curl localhost:8081/operations/doSubstract -H "id-session: 0af07a00-0c9d-4049-9460-15313ed67a44"
-	
-	* Get doSubstract
-	>curl localhost:8081/operations/doDevide -H "id-session: 0af07a00-0c9d-4049-9460-15313ed67a44"
+# Docker compose (app.jar and redis)
+```sh
+docker-compose up --build
+```
 
 
-#Corner cases	
+# Curl 
+
+  * Get session
+
+```sh
+curl http://localhost:8081/startSession
+0af07a00-0c9d-4049-9460-15313ed67a44
+```
+	
+  * add Operand
+
+```sh
+curl -X POST http://localhost:8081/operations/addOperand -H "Content-Type: application/json" -H "id-session: 0af07a00-0c9d-4049-9460-15313ed67a44"  -d "{\"operand\":\"1\"}"
+ OK
+ ```
+
+* Get Sum
+```sh
+curl localhost:8081/operations/doSum -H "id-session: 0af07a00-0c9d-4049-9460-15313ed67a44"
+```
+
+* Get Multiply
+```sh
+curl localhost:8081/operations/doMultiply -H "id-session: 0af07a00-0c9d-4049-9460-15313ed67a44"
+```
+
+* Get doSubstract
+```sh
+>curl localhost:8081/operations/doSubstract -H "id-session: 0af07a00-0c9d-4049-9460-15313ed67a44"
+```
+
+* Get doSubstract
+```sh
+>curl localhost:8081/operations/doDevide -H "id-session: 0af07a00-0c9d-4049-9460-15313ed67a44"
+```
+
+# Corner cases	
 
 1. Divide on Zero. thows a arithmethic exception in this case return a status 500 -> internal error
 
@@ -76,9 +100,9 @@ Open comand Line and execute
 
 # Architecture Diagram
 
-![Alt text](assets/architecutre Diagram.png?raw=true "AD")
+[![N|Solid](https://github.com/odinds/app-gate-operations-test/blob/feature/test/assets/architecutre%20Diagram.png)](https://github.com/odinds/app-gate-operations-test/blob/feature/test/assets/architecutre%20Diagram.png)
 
 
 # CI CD Diagram
 
-![Alt text](assets/CI CD startegy.png?raw=true "CC")
+[![N|Solid](https://github.com/odinds/app-gate-operations-test/blob/feature/test/assets/CI%20CD%20startegy.png)](https://github.com/odinds/app-gate-operations-test/blob/feature/test/assets/CI%20CD%20startegy.png)
