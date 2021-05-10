@@ -13,5 +13,9 @@ public interface SessionService {
 	 * @return
 	 */
 	String startSession();
-
+	
+	/**
+	 * 
+	 */
+	void scheduleEndSession();
 }
