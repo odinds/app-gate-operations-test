@@ -65,4 +65,20 @@ Open comand Line and execute
 	>curl localhost:8081/operations/doSubstract -H "id-session: 0af07a00-0c9d-4049-9460-15313ed67a44"
 	
 	* Get doSubstract
-	>curl localhost:8081/operations/doDevide -H "id-session: 0af07a00-0c9d-4049-9460-15313ed67a44"	
+	>curl localhost:8081/operations/doDevide -H "id-session: 0af07a00-0c9d-4049-9460-15313ed67a44"
+
+
+#Corner cases	
+
+1. Divide on Zero. thows a arithmethic exception in this case return a status 500 -> internal error
+
+
+
+# Architecture Diagram
+
+![Alt text](assets/architecutre Diagram.png?raw=true "AD")
+
+
+# CI CD Diagram
+
+![Alt text](assets/CI CD startegy.png?raw=true "CC")
