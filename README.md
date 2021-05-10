@@ -1,8 +1,8 @@
 # app-gate-operations-test
 
-##Project(Gradle)
+## Project(Gradle)
 
-#Build
+# Build
 Open comand Line and execute the next commands
 	>cd operarions
 	>gradlew build
