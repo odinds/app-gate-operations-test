@@ -12,12 +12,12 @@ Open comand Line and execute the next commands
 	>cd operarions
 	>gradlew bootJar
 	
-This generate a executable .jar in folder <project>/build/libs
+This will generate a executable .jar in folder <project>/build/libs
 
-#Run
-Open comand Line and execute the next commands
+#Run dev enviroment
+Open comand line and execute the next commands
 	>cd operarions
-	>gradlew bootJar
+	>gradlew bootRunDev
 	
 This generate a executable .jar in folder <project>/build/libs
 	
@@ -42,3 +42,27 @@ Open comand Line and execute
 	
 #Docker compose
 	>docker-compose up --build
+	
+
+#Curl 
+	* Get session
+	>curl http://localhost:8081/startSession
+	
+	Output Example->0af07a00-0c9d-4049-9460-15313ed67a44
+	
+	* add Operand
+	>curl -X POST http://localhost:8081/operations/addOperand -H "Content-Type: application/json" -H "id-session: 0af07a00-0c9d-4049-9460-15313ed67a44"  -d "{\"operand\":\"1\"}"
+	
+	Output Example -> OK 
+
+	* Get Sum
+	>curl localhost:8081/operations/doSum -H "id-session: 0af07a00-0c9d-4049-9460-15313ed67a44"
+
+	* Get Multiply
+	>curl localhost:8081/operations/doMultiply -H "id-session: 0af07a00-0c9d-4049-9460-15313ed67a44"
+	
+	* Get doSubstract
+	>curl localhost:8081/operations/doSubstract -H "id-session: 0af07a00-0c9d-4049-9460-15313ed67a44"
+	
+	* Get doSubstract
+	>curl localhost:8081/operations/doDevide -H "id-session: 0af07a00-0c9d-4049-9460-15313ed67a44"	
