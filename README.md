@@ -104,7 +104,7 @@ curl localhost:8081/operations/doMultiply -H "id-session: 0af07a00-0c9d-4049-946
 
 # Architecture Diagram
 
-[![N|Solid](https://github.com/odinds/app-gate-operations-test/blob/feature/test/assets/architecutre%20Diagram.jpg)](https://github.com/odinds/app-gate-operations-test/blob/feature/test/assets/architecutre%20Diagram.png)
+[![N|Solid](https://github.com/odinds/app-gate-operations-test/blob/feature/test/assets/Diagram%20architecture.jpg)](https://github.com/odinds/app-gate-operations-test/blob/feature/test/assets/architecutre%20Diagram.png)
 
 
 # CI CD Diagram
