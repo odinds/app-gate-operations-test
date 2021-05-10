@@ -1,6 +1,10 @@
 # app-gate-operations-test
 
-## Project(Gradle)
+# Pre
+
+* [JAVA 11](https://openjdk.java.net/projects/jdk/11/) 
+* [Docker](https://www.docker.com/products/docker-desktop) 
+* [Gradle 7](https://gradle.org/) 
 
 # Build
 Execute in command line
