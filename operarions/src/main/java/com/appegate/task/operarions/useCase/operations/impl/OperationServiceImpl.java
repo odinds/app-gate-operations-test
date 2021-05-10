@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.appegate.task.operarions.domain.OperandData;
@@ -97,9 +98,10 @@ public class OperationServiceImpl implements OperationService {
 		}
 		
 		LinkedList<BigDecimal> operandList = operandDataOpt.map(d -> d.getOperands()).get();
-		BigDecimal sum = operandList.stream().reduce(BigDecimal.ONE, BigDecimal::multiply);
+		BigDecimal result = operandList.stream().reduce(BigDecimal.ONE, BigDecimal::multiply);
+		saveResult(operandDataOpt,result);
 		
-		return sum;
+		return result;
 	}
 
 	/**
@@ -120,9 +122,10 @@ public class OperationServiceImpl implements OperationService {
 		}
 		
 		BigDecimal base = operandList.pollFirst();
-		BigDecimal sum = operandList.stream().reduce(base, BigDecimal::subtract);
+		BigDecimal result = operandList.stream().reduce(base, BigDecimal::subtract);
+		saveResult(operandDataOpt,result);
 		
-		return sum;
+		return result;
 	}
 
 	/**
@@ -143,14 +146,25 @@ public class OperationServiceImpl implements OperationService {
 		}
 		
 		BigDecimal base = operandList.pollFirst();
-		BigDecimal sum = BigDecimal.ZERO;
+		BigDecimal result = BigDecimal.ZERO;
 		try {
-			sum = operandList.stream().reduce(base, BigDecimal::divide);
+			result = operandList.stream().reduce(base, BigDecimal::divide);
+			saveResult(operandDataOpt,result);
 		}catch (ArithmeticException  e) {
 			throw new OperationsAppGateException(EnumMessage.DATA_NO_DEVIDE_BUT_ZERO.getMessage());
 		}
 		
-		return sum;
+		return result;
+	}
+
+	@Async("threadPoolTaskExecutor")
+	private void saveResult(Optional<OperandData> operandDataOpt, BigDecimal result) {
+		operandDataOpt.ifPresent(s -> {
+			LinkedList<BigDecimal> operands = new LinkedList<>();
+			operands.add(result);
+			s.setOperands(operands);
+			operandDataRepository.save(s);
+		});
 	}
 
 
